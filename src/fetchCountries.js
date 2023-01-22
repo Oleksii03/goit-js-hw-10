@@ -1,17 +1,13 @@
-import Notiflix from 'notiflix';
+export const fetchCountries = (name) => {
 
-export const fetchCountries = name => {
-  const requiredProperties = 'name,capital,population,flags,languages';
-  return fetch(
-    `https://restcountries.com/v2/name/${name}?fields=${requiredProperties}`
-  )
+  const BASE_URL = 'https://restcountries.com/v2'
+  const FILTER_RESPONSE = 'name,capital,population,flags,languages'
+
+  return fetch(`${BASE_URL}/name/${name}?fields=${FILTER_RESPONSE}`)
     .then(response => {
       if (!response.ok) {
-        throw new Error('Oops, there is no country with that name');
-      }
+        throw new Error(response.status);
+      };
       return response.json();
-    })
-    .catch(error => {
-      Notiflix.Notify.failure(error.message);
     });
 };
